@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArtistaController;
+use App\Http\Controllers\CancionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +35,16 @@ Route::prefix('artistas')->group(function () {
     Route::delete('/destroy', [ArtistaController::class, 'destroy']);
     Route::get('/show/{id}', [ArtistaController::class, 'show']);
     Route::get('/search', [ArtistaController::class, 'search']);
+    Route::get('/data-source-artista', [ArtistaController::class, 'data_source_artista']);
+
 });
 
+
+Route::prefix('canciones')->group(function () {
+    Route::get('/', [CancionController::class, 'index']);
+    Route::post('/store', [CancionController::class, 'store']);
+    Route::put('/update', [CancionController::class, 'update']);
+    Route::delete('/destroy', [CancionController::class, 'destroy']);
+    Route::get('/show/{id}', [CancionController::class, 'show']);
+    Route::get('/search', [CancionController::class, 'search']);
+});
