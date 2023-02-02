@@ -23,7 +23,7 @@ class ArtistaController extends Controller
             $search = trim($request->s);
             $query->where('nombre', 'like', '%' . $search . '%');
 
-        });
+        })->orderBy('nombre', 'asc');
 
         return $request->has('per_page')
         ? $query->paginate($request->per_page)
@@ -65,7 +65,8 @@ class ArtistaController extends Controller
             DB::beginTransaction();
 
             $artista = Artista::create([
-                'nombre' => strtoupper($request->nombre)
+                'nombre' => strtoupper($request->nombre),
+                'imagen' => $request->imagen,
             ]);
 
             DB::commit();
@@ -117,6 +118,9 @@ class ArtistaController extends Controller
 
             $artista=Artista::find($request->id);
             $artista->nombre=strtoupper($request->nombre);
+            if(!empty($request->imagen)){
+                $artista->imagen=$request->imagen;
+            }
             $artista->save();
 
             DB::commit();

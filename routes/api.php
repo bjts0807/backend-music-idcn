@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ArtistaController;
 use App\Http\Controllers\CancionController;
+use App\Http\Controllers\MembersController;
+use App\Http\Controllers\RepertorioController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,4 +49,25 @@ Route::prefix('canciones')->group(function () {
     Route::delete('/destroy', [CancionController::class, 'destroy']);
     Route::get('/show/{id}', [CancionController::class, 'show']);
     Route::get('/search', [CancionController::class, 'search']);
+    Route::get('/data-source-cancion', [CancionController::class, 'data_source_cancion']);
+
+});
+
+Route::prefix('miembros')->group(function () {
+    Route::get('/', [MembersController::class, 'index']);
+    Route::post('/store', [MembersController::class, 'store']);
+    Route::put('/update', [MembersController::class, 'update']);
+    Route::delete('/destroy', [MembersController::class, 'destroy']);
+    Route::get('/show/{id}', [MembersController::class, 'show']);
+    Route::get('/search', [MembersController::class, 'search']);
+    Route::get('/data-source-member', [MembersController::class, 'data_source_member']);
+
+});
+
+Route::prefix('repertorio')->group(function () {
+    Route::get('/', [RepertorioController::class, 'index']);
+    Route::post('/store', [RepertorioController::class, 'store']);
+    Route::put('/update', [RepertorioController::class, 'update']);
+    Route::delete('/destroy', [RepertorioController::class, 'destroy']);
+    Route::get('/show/{id}', [RepertorioController::class, 'show']);
 });

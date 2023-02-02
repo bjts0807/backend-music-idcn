@@ -25,7 +25,7 @@ class CancionController extends Controller
                 'like',
                 "%{$search}%"
             );
-        })
+        })->orderBy('nombre', 'asc')
         ->with(['artista','detalles']);
 
         $results = $request->has('per_page') ? $query->paginate($request->per_page) : $query->get();
@@ -102,5 +102,17 @@ class CancionController extends Controller
             Log::error($ex->getMessage().PHP_EOL.$ex->getTraceAsString());
             return response()->json(['status' => 'fail', 'msg' => 'Ha ocurrido un error al procesar la solicitud'], 500);
         }
+    }
+
+    public function data_source_cancion(Request $request)
+    {
+        $s = $request->s;
+
+        $cancion = Cancion::selectRaw('id, concat("",nombre) as text')
+            ->where('nombre', 'like', '%' . $s . '%')
+            ->limit(3)
+            ->get();
+
+        return response()->json(['results' => $cancion]);
     }
 }

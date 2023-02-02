@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Member extends Model
+class Miembro extends Model
 {
     use HasFactory;
-    protected $table = 'members';
+    protected $table = 'miembros';
     protected $fillable = [
         'id',
         'first_name',
@@ -21,11 +21,10 @@ class Member extends Model
         'address',
         'email',
         'birthday',
-        'active_member',
         'active'
     ];
 
-    /* public function preguntas(){
-        return $this->hasMany('App\Models\PreguntasFormulario','id_etapa', 'id');
-    } */
+    public function repertorio(){
+        return $this->hasMany('App\Models\Repertorio','miembro_id', 'id');
+    }
 }

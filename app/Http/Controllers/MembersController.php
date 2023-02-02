@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
+use App\Models\Miembro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +15,7 @@ class MembersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Member $model)
+    public function index(Request $request, Miembro $model)
     {
 
         $query = $model->query();
@@ -26,7 +26,7 @@ class MembersController extends Controller
             ->orWhere('second_name', 'like', $search . '%')
             ->orWhere('first_surname', 'like', $search . '%')
             ->orWhere('second_surname', 'like', $search . '%');
-            
+
         });
         // ->with(['factura.usuario','user']);
 
@@ -39,7 +39,7 @@ class MembersController extends Controller
     {
         $s = $request->s;
 
-        $members = Member::selectRaw('id, concat("",first_name," ",second_name," ",first_surname," ",second_surname) as text')
+        $members = Miembro::selectRaw('id, concat("",first_name," ",second_name," ",first_surname," ",second_surname) as text')
             ->where('first_name', 'like', '%' . $s . '%')
             ->orWhere('second_name', 'like', $s . '%')
             ->orWhere('first_surname', 'like', $s . '%')
@@ -61,7 +61,7 @@ class MembersController extends Controller
 
             DB::beginTransaction();
 
-            $members = Member::create([
+            $members = Miembro::create([
                 'first_name' => strtoupper($request->first_name),
                 'second_name' => strtoupper($request->second_name),
                 'first_surname' => strtoupper($request->first_surname),
@@ -72,7 +72,6 @@ class MembersController extends Controller
                 'address' => strtoupper($request->address),
                 'email' => $request->email,
                 'birthday' => $request->birthday,
-                'active_member' => $request->active_member,
             ]);
 
             DB::commit();
@@ -94,7 +93,7 @@ class MembersController extends Controller
      */
     public function show($id)
     {
-        $member=Member::where('id', $id)->first();
+        $member=Miembro::where('id', $id)->first();
         return response()->json($member);
     }
 
@@ -111,7 +110,7 @@ class MembersController extends Controller
 
             DB::beginTransaction();
 
-            $member=Member::find($request->id);
+            $member=Miembro::find($request->id);
             $member->first_name=strtoupper($request->first_name);
             $member->second_name=strtoupper($request->second_name);
             $member->first_surname=strtoupper($request->first_surname);
@@ -119,7 +118,6 @@ class MembersController extends Controller
             $member->document_type=$request->document_type;
             $member->document_number=$request->document_number;
             $member->birthday=$request->birthday;
-            $member->active_member=$request->active_member;
             $member->email=$request->email;
             $member->address=strtoupper($request->address);
             $member->phone=$request->phone;
