@@ -21,7 +21,8 @@ class RepertorioController extends Controller
                 "%{$search}%"
             );
         })
-        ->with(['detalles.cancion.detalles','detalles.miembro']);
+        ->with(['detalles.cancion.detalles','detalles.miembro'])
+        ->orderBy('fecha_ejecucion','desc');
 
         $results = $request->has('per_page') ? $query->paginate($request->per_page) : $query->get();
 
@@ -100,5 +101,13 @@ class RepertorioController extends Controller
             Log::error($ex->getMessage().PHP_EOL.$ex->getTraceAsString());
             return response()->json(['status' => 'fail', 'msg' => 'Ha ocurrido un error al procesar la solicitud'], 500);
         }
+    }
+
+    public function destroy($id){
+
+        DetalleRepertorio::where('repertorio_id',$id)->delete();
+        Repertorio::where('id',$id)->delete();
+
+        return response()->json('datos eliminados con exitos');
     }
 }

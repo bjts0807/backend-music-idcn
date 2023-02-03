@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArtistaController;
 use App\Http\Controllers\CancionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\RepertorioController;
 use App\Http\Controllers\UserController;
@@ -68,6 +69,10 @@ Route::prefix('repertorio')->group(function () {
     Route::get('/', [RepertorioController::class, 'index']);
     Route::post('/store', [RepertorioController::class, 'store']);
     Route::put('/update', [RepertorioController::class, 'update']);
-    Route::delete('/destroy', [RepertorioController::class, 'destroy']);
+    Route::delete('/delete/{id}', [RepertorioController::class, 'destroy']);
     Route::get('/show/{id}', [RepertorioController::class, 'show']);
+});
+
+Route::prefix('dashboard')->group(function (){
+    Route::get('/', [DashboardController::class, 'index']);
 });
