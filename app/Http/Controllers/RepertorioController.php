@@ -21,7 +21,7 @@ class RepertorioController extends Controller
                 "%{$search}%"
             );
         })
-        ->with(['detalles.cancion.detalles','detalles.miembro'])
+        ->with(['detalles.cancion.detalles','detalles.cancion.artista','detalles.miembro'])
         ->orderBy('fecha_ejecucion','desc');
 
         $results = $request->has('per_page') ? $query->paginate($request->per_page) : $query->get();
